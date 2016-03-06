@@ -100,3 +100,7 @@ int hash_quinary(unsigned char q[], int len, int k)
 }
 
 In practice, the final increment can be ignored.
+
+The final lookup hash table will contain 49205 entries, and the hash function
+takes at most 13 cycles to compute. This algorithm is much better than any
+others that do 7-card poker evaluation by checking all 21 combinations.
