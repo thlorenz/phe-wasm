@@ -91,6 +91,5 @@ found in a compressed gz file. The reason I compressed them is the original
 source code exceeds the limitation of the github file size limits. It also takes
 quite an effort to compile the source code. I failed the compilation in many
 linux evironments. It only worked when compiling under my Macbook Air, with the
-optimization flags disabled when compiling the larges file. See if you guys have
-better ways in compiling this part of the source code, and good luck with
-playing it around.
+optimization flags disabled when compiling the larges file. Anyway, good luck
+with the compiling and have fun when playing it around.
