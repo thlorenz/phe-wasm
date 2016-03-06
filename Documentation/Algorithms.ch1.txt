@@ -1,0 +1,92 @@
+Chapter 1: A General Algorithm
+
+Let's first consider the 7-card stud poker hand case, the 5-card hand would be
+similar but easier.
+
+We know that a deck has 52 different cards, and a 7-card poker hand consists of
+7 different cards from a deck. We can easily represent a 7-card poker hand with
+a 52-bit binary uniquely, with exactly 7 bits set to 1 and 45 bits set to 0.
+
+For example, if a hand has
+
+ 5 of Spades,
+ 4 of Clubs,
+ 7 of Spades,
+ Jack of Diamonds,
+ Ace of Clubs,
+ 10 of Spades,
+ and 5 of Hearts,
+
+we can have such a 52-bit binary as a represenation:
+
+ |   Spades   |   Hearts   |  Diamonds  |   Clubs   |
+ 23456789TJQKA23456789TJQKA23456789TJQKA23456789TJQKA
+ 0001010010000000100000000000000000010000010000000001
+
+We can see that there are totally 52 choose 7 = 133,784,560 combinations of such
+representations. If we could map each hand representation to a number range from
+[1, 133784560], we can then create a hash table of size 133784560, and assign a
+unique value int the hash table for each hand. In other words, we need a perfect
+hash function of a 52-bit binary with exactly 7 bits set to 1.
+
+First we sort all these 133784560 binaries in lexicographical order. If we have
+a function that receives a binary as an input, and outputs its position in this
+lexicographical ordering, this functions is exactly the perfect hash function.
+
+Let's formalize this to a more general problem, and name it HashNBinaryKSum.
+
+ Problem: HashNBinaryKSum
+
+ Input: integer n, integer k, an n-bit binary with exactly k bits set to 1
+
+ Output: the position of the binary in the lexicographical ordering of all n-bit
+ binaries with exactly k bits of ones
+
+Consider an example with n = 4 and k = 2, the binary 0011 should be returned
+with 1, and 1010 should be returned with 5.
+
+	0011 0101 0110 1001 1010 1100
+
+The problem can be solved in recursions. In order to get the position in the
+ordering, we can instead count how many numbers are ahead of that position.
+
+Take 1010 for example, we can count the number of valid numbers in the range [0,
+1010), and increment by one in the end. As for counting the numbers in range [0,
+1010), we can first count the numbers in [0, 1000), then count [1000, 1010). To
+solve the former case [0, 1000), we can use 3 choose 2, which is the number of
+combinations of filling 2 ones in the last 3 bits. The latter case [1000, 1010)
+is equivalent to [000, 010), with both the parameter n and k decrement by 1, so
+it becomes a smaller problem and can be solved in another recursion.
+
+We can optimize the recursion to a loop, and the sample C code is shown below.
+
+int hash_binary(int q[], int len, int k)
+{
+    int sum = 0;
+	int i;
+
+    for (i=0; i<len; i++) {
+		if (q[i]) {
+			// choose[n][k] <=> n choose k
+			sum += choose[len-i-1][k];
+
+			k--;
+
+			if (k == 0)
+				break;
+		}
+    }
+
+    return ++sum;
+}
+
+We can precompute all possible n choose k and store the results. For a problem
+with a n-bit binary, the function runs in at most n cycles.
+
+If we apply this function to a poker hand, it'll take 52 cycles to compute the
+hash value. Meanwhile we need a hash table of size 133784560 entries in the
+7-card poker hand case. Both the time and memory performance are not what we
+expected.
+
+Proceed to chapter 2, you may find how a more special algorithm can solve the
+problem.
