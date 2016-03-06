@@ -3,7 +3,7 @@
 A poker hand evaluation algorithm with perfect hash functions and dynamic
 programming.
 
-PH stands for Poker Hand, as well as Perfect hashing.
+PH stands for Poker Hand, as well as Perfect Hashing.
 
 ---------
 Intro
