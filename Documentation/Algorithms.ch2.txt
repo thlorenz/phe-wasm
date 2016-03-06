@@ -1,0 +1,55 @@
+Chapter 2: Two branches
+
+What makes a poker evaluator complicated, is the Flush category (including the
+Straight Flush). If we don't care about the Flush, we can ignore the suits, and
+simplify the 52-bit binary to a 13-bit quinary (base 5 number). The reason we
+need base 5, is that for each rank, there can be 0, 1, 2, 3, 4 numbers of cards,
+hence 5 possibilities.
+
+So we can split the problem into two branches, the hands with a flush and the
+hands without a flush. Luckily, in 7-card poker, if there are at least five
+cards in the same suit, this hand is guaranteed to be either Flush or Straight
+Flush. Because if we have at least 5 cards in the same suit, these 5 cards must
+have different ranks, then at most 2 cards from the other suit cannot form a
+Four of a Kind or a Full House.
+
+We also know that, there cannot be two flushes in different suits in a 7-card
+hand.
+
+It's not hard to determine whether a hand has a flush or not, we only need a
+counter for each suit. In the meantime, we need to maintain a binary for each
+suit, so that when we see a flush, we can pass the corresponding binary to the
+function that evaluates flush hands.
+
+For example, given the input
+
+ 5 of Spades,
+ 4 of Spades,
+ 7 of Spades,
+ Jack of Diamonds,
+ Ace of Clubs,
+ 10 of Spades,
+ 8 of Spades,
+
+our 4 counters and binaries are:
+
+ Spades:        counter 5, binary 0000101101100
+ Hearts:        counter 0, binary 0000000000000
+ Clubs:         counter 1, binary 1000000000000
+ Diamonds:		counter 1, binary 0001000000000
+
+As soon as we see the counter of Spades is greater than 4, we can pass the
+binary 0000101101100 to the next function to evaluate the flush. We don't need
+to worry about the other cards in other suits, because none of those cards can
+be part of the best 5-card hand.
+
+We can of course use the HashNBinaryKSum function and three hash table (k can be
+5, 6 and 7) to evaluate the flush binary. However, considering the number
+$2^{13}$ = 8192 is not very large, we can directly look up a table of size 8192,
+that saves us a loop of 13 cycles to compute the perfect hash.
+
+If the hand contains no more than 7 cards, we can now immediately return the
+value of the flush as a final result. Otherwise, we still need to go through the
+nonflush branch, and compare both results.
+
+The other branch will be discussed in the next chapter.

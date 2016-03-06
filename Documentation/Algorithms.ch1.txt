@@ -1,7 +1,7 @@
 Chapter 1: A General Algorithm
 
-Let's first consider the 7-card stud poker hand case, the 5-card hand would be
-similar but easier.
+Let's first consider the 7-card stud poker hand case, since the 5-card hand
+would be similar but easier.
 
 We know that a deck has 52 different cards, and a 7-card poker hand consists of
 7 different cards from a deck. We can easily represent a 7-card poker hand with
@@ -42,8 +42,8 @@ Let's formalize this to a more general problem, and name it HashNBinaryKSum.
  Output: the position of the binary in the lexicographical ordering of all n-bit
  binaries with exactly k bits of ones
 
-Consider an example with n = 4 and k = 2, the binary 0011 should be returned
-with 1, and 1010 should be returned with 5.
+Consider an example with n = 4 and k = 2, the binary 0011 should return 1, and
+1010 should return 5.
 
 	0011 0101 0110 1001 1010 1100
 
@@ -51,34 +51,39 @@ The problem can be solved in recursions. In order to get the position in the
 ordering, we can instead count how many numbers are ahead of that position.
 
 Take 1010 for example, we can count the number of valid numbers in the range [0,
-1010), and increment by one in the end. As for counting the numbers in range [0,
-1010), we can first count the numbers in [0, 1000), then count [1000, 1010). To
-solve the former case [0, 1000), we can use 3 choose 2, which is the number of
-combinations of filling 2 ones in the last 3 bits. The latter case [1000, 1010)
-is equivalent to [000, 010), with both the parameter n and k decrement by 1, so
-it becomes a smaller problem and can be solved in another recursion.
+1010). As for counting the numbers in range [0, 1010), we can first count the
+numbers in [0, 1000), then count [1000, 1010). To solve the former case [0,
+1000), we can use 3 choose 2, which is the number of combinations of filling 2
+ones in the last 3 bits. The latter case [1000, 1010) is equivalent to [000,
+010), with both the parameter n and k decrement by 1, so it becomes a smaller
+problem and can be solved in another recursion.
 
 We can optimize the recursion to a loop, and the sample C code is shown below.
 
-int hash_binary(int q[], int len, int k)
+int hash_binary(unsigned char q[], int len, int k)
 {
-    int sum = 0;
+	int sum = 0;
 	int i;
 
-    for (i=0; i<len; i++) {
-		if (q[i]) {
-			// choose[n][k] <=> n choose k
-			sum += choose[len-i-1][k];
+	for (i=0; i<len; i++)
+	{
+		if (q[i])
+		{
+			if (len-i-1 >= k)
+				sum += choose[len-i-1][k];
 
 			k--;
 
 			if (k == 0)
 				break;
 		}
-    }
+	}
 
-    return ++sum;
+	return ++sum;
 }
+
+In practice, we don't need the final increment at the end, by treating the
+position as a number starting from 0, which also fits perfectly in a hash table.
 
 We can precompute all possible n choose k and store the results. For a problem
 with a n-bit binary, the function runs in at most n cycles.
