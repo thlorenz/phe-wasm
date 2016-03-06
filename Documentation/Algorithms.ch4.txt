@@ -1,6 +1,10 @@
 Chapter 4: The Ultimate Dynamic Programming Algorithm
 
-Recall that in chapter one, we managed to find a mapping from a 52-bit restricted binary to a hash key ranged from 0 to 133784559. Although the number of entries in this hash table is considerably large, it's still feasible on modern computers. If we could manage to improve the time efficiency in the hash function, it's still a useful approach.
+Recall that in chapter one, we managed to find a mapping from a 52-bit
+restricted binary to a hash key ranged from 0 to 133784559. Although the number
+of entries in this hash table is considerably large, it's still feasible on
+modern computers. If we could manage to improve the time efficiency in the hash
+function, it's still a useful approach.
 
 Let's go back to that problem HashNBinaryKSum:
 
@@ -11,42 +15,48 @@ Let's go back to that problem HashNBinaryKSum:
  Output: the position of the binary in the lexicographical ordering of all n-bit
  binaries with exactly k bits of ones
 
-More specificly, we are trying to solve a problem with n = 52 and k = 7. If we split the 52-bit binary into 4 blocks, where each block has 13 bits, we can precompute the results in a table in size 2^13 * 4 * 8, and do only 4 summations in the actual hash function. In practice, it would be easier if we use a 16-bit block instead of 13, making the table in size 2^16 * 4 * 8.
+More specificly, we are trying to solve a problem with n = 52 and k = 7. If we
+split the 52-bit binary into 4 blocks, where each block has 13 bits, we can
+precompute the results in a table in size 2^13 * 4 * 8, and do only 4 summations
+in the actual hash function. In practice, it would be easier if we use a 16-bit
+block instead of 13, making the table in size 2^16 * 4 * 8.
 
-Precomputing this table is similar to the methods we used in the previous chapters. I'll just put the sample C code here and omit the explanations.
+Precomputing this table is similar to the methods we used in the previous
+chapters. I'll just put the sample C code here and omit the explanations.
 
 {
-	int dp[65536][4][8];
-	for (i=0; i<65536; i++)
-	{
-		for (j=0; j<4; j++)
-		{
-			for (k=0; k<8; k++)
-			{
+	int dp[65536][4][8]; 
+
+	for (i=0; i<65536; i++) {
+		for (j=0; j<4; j++) {
+			for (k=0; k<8; k++) {
 				int ck = k;
 				int s;
 				int sum = 0;
 
-				for (s=15; s>=0; s--)
-				{
-					if (i & (1 << s))
-					{
+				for (s=15; s>=0; s--) {
+					if (i & (1 << s)) {
 						int n = j*16 + s;
+
 						sum += choose[n][ck];
+
 						ck--;
 					}
 				}
+
 				dp[i][j][k] = sum;
 			}
 		}
 	}
 }
 
-And the hash function only need to sum up the result from the dp table. The C code is shown below.
+And the hash function only need to sum up the result from the dp table. The C
+code is shown below.
 
 int fast_hash(unsigned long long handid, int k)
 {
 	int hash = 0;
+
 	unsigned short * a = (unsigned short *)&handid;
 
 	hash += dp_fast[a[3]][3][k];
@@ -63,6 +73,24 @@ int fast_hash(unsigned long long handid, int k)
 	return hash;
 }
 
-Although this algorithm takes very few CPU cycles to compute the hash value (4 summations and 3 decrements), the overall performance is worse than what we used in the previous chapter. Part of the reason might be the dp table is greater than a normal page size (64Kbytes). If we cut the block into 8 bits and use a table of size 2^8 * 8 * 8, which will double the  number of operations in the hash function (8 summations and 7 decrements), the performance seems to improve, but still doesn't beat the algorithm used in the previous chapter under my environment.
+Although this algorithm takes very few CPU cycles to compute the hash value (4
+summations and 3 decrements), the overall performance is worse than what we used
+in the previous chapter. Part of the reason might be the dp table is greater
+than a normal page size (64Kbytes). If we cut the block into 8 bits and use a
+table of size 2^8 * 8 * 8, which will double the  number of operations in the
+hash function (8 summations and 7 decrements), the performance seems to improve,
+but still doesn't beat the algorithm used in the previous chapter under my
+environment.
 
-In summary, although it's an algorithm that uses very few CPU cycles, the true performance is bounded by the time access to the memory, which doesn't make it faster than the algorithm we used in chapter 2 to chapter 3.
+In summary, although it's an algorithm that uses very few CPU cycles, the true
+performance is bounded by the time access to the memory, which doesn't make it
+faster than the algorithm we used in chapter 2 to chapter 3.
+
+The source code of this algorithm is put under the branch `fast`, and can be
+found in a compressed gz file. The reason I compressed them is the original
+source code exceeds the limitation of the github file size limits. It also takes
+quite an effort to compile the source code. I failed the compilation in many
+linux evironments. It only worked when compiling under my Macbook Air, with the
+optimization flags disabled when compiling the larges file. See if you guys have
+better ways in compiling this part of the source code, and good luck with
+playing it around.

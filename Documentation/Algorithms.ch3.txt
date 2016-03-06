@@ -1,51 +1,83 @@
 Chapter 3: Hash For a Restricted Quinary
 
-Recall that for a hand that suits no longer matters, we can represent a 7-card hand with a 13-bit quinary (base 5) number. Again, there is a restriction of such a quinary, which is the sum of all bits is equal to 7.
+Recall that for a hand that suits no longer matters, we can represent a 7-card
+hand with a 13-bit quinary (base 5) number. Again, there is a restriction of
+such a quinary, which is the sum of all bits is equal to 7.
 
-To encode the quinary, we need 13 counters. When a new card comes in, increment the counter of the corresponding rank. For example, if a hand has 2 Aces, 3 Fives, 1 Seven and 1 Jack, the quinary is 2001000103000.
+To encode the quinary, we need 13 counters. When a new card comes in, increment
+the counter of the corresponding rank. For example, if a hand has 2 Aces, 3
+Fives, 1 Seven and 1 Jack, the quinary is 2001000103000.
 
-Let's try to find a perfect hash function for such a quinary. Same as what we did in the binary hash, if we sort all the quinary in lexicographical order, where the sum of all bits of each quinary is equal to 7, the position in this ordering is a perfect hash of this quinary.
+Let's try to find a perfect hash function for such a quinary. Same as what we
+did in the binary hash, if we sort all the quinary in lexicographical order,
+where the sum of all bits of each quinary is equal to 7, the position in this
+ordering is a perfect hash of this quinary.
 
  Problem: HashNQuinaryKSum
 
- Input: integer n, integer k, an n-bit quinary with the sum of all bits equal to k
+ Input: integer n, integer k, an n-bit quinary with the sum of all bits equal to
+ k
 
- Output: the position of the quinary in the lexicographical ordering of all n-bit quinaries with sum of all bits equal to k
+ Output: the position of the quinary in the lexicographical ordering of all
+ n-bit quinaries with sum of all bits equal to k
 
-Similar to what we did in the binary hash, in order to get the position of the quinary, we can count how many valid numbers are smaller than this quinary. For example, given a 4-bit quinary 4300, we can first count the valid numbers in range [0000, 4300), then increment the result in the end. The range [0000, 4300) can be splitted into [0000, 4000) and [4000, 4300). The latter range is equivalent to [000, 300) with parameter n-1 and k-4, and becomes a problem of a smaller size.
+Similar to what we did in the binary hash, in order to get the position of the
+quinary, we can count how many valid numbers are smaller than this quinary. For
+example, given a 4-bit quinary 4300, we can first count the valid numbers in
+range [0000, 4300), then increment the result in the end. The range [0000, 4300)
+can be splitted into [0000, 4000) and [4000, 4300). The latter range is
+equivalent to [000, 300) with parameter n-1 and k-4, and becomes a problem of a
+smaller size.
 
-Unlike the binary hash, the range [0000, 4000) is not easy to compute. We can keep splitting the range into [0000, 1000), [1000, 2000), [2000, 3000) and [3000, 4000). The range [1000, 2000) is equivalent to [000, 1000) with k-1, and the range [2000, 3000) is equivalent to [000, 1000) with k-2, and so on. 
+Unlike the binary hash, the range [0000, 4000) is not easy to compute. We can
+keep splitting the range into [0000, 1000), [1000, 2000), [2000, 3000) and
+[3000, 4000). The range [1000, 2000) is equivalent to [000, 1000) with k-1, and
+the range [2000, 3000) is equivalent to [000, 1000) with k-2, and so on.
 
-Now the remaining problem is solving the range [0000, 1000) with parameter k. This range can be splitted into [000, 400) and [400, 1000), and eventually it can be partitioned into 5 small ranges. The result of the problem is the sum of the result of the 5 subproblems with range of exactly a power of 5.
+Now the remaining problem is solving the range [0000, 1000) with parameter k.
+This range can be splitted into [000, 400) and [400, 1000), and eventually it
+can be partitioned into 5 small ranges. The result of the problem is the sum of
+the result of the 5 subproblems with range of exactly a power of 5.
 
-We can use dynamic programming to solve all these subproblems, and store the result in an array. Let's use a 3-d array dp[l][n][k] of size 4*14*8, where n is the number of bits, k is the remaining number of k, and l is the most significant bit of the number next to the range. For example, the result of [0000, 1000) is stored in dp[1][4][k], and the result of [000, 200) is stored in dp[2][3][k].
+We can use dynamic programming to solve all these subproblems, and store the
+result in an array. Let's use a 3-d array dp[l][n][k] of size 4*14*8, where n is
+the number of bits, k is the remaining number of k, and l is the most
+significant bit of the number next to the range. For example, the result of
+[0000, 1000) is stored in dp[1][4][k], and the result of [000, 200) is stored in
+dp[2][3][k].
 
 The base cases for the array dp:
 
-	dp[1][1][i] = 1;	if 0 <= i <= 4
-	dp[1][1][i] = 0;	if i > 4
+	dp[1][1][i] = 1;        if 0 <= i <= 4
+	dp[1][1][i] = 0;        if i > 4
 
-For example, the 1-bit quinary with k=4 has one instance, which is exactly 4. However there is no instance for a 1-bit quinary with k=5.
+For example, the 1-bit quinary with k=4 has one instance, which is exactly 4.
+However there is no instance for a 1-bit quinary with k=5.
 
 	for each i in [1, 13]:
-	dp[1][i][1] = i;
-	dp[1][i][0] = 1;
+	dp[1][i][1] = i; dp[1][i][0] = 1;
 
-An example is a 3-bit quinary with k=1, it has three instances 001, 010, 100. If k=0, the only one instance is 000.
+An example is a 3-bit quinary with k=1, it has three instances 001, 010, 100. If
+k=0, the only one instance is 000.
 
 Now we can iterate all dp[1][i][j]:
 
 	for each i in [2, 13] and j in [2, 7]:
 	dp[1][i][j] = SUM{k in [0, 4]}(dp[0][i-1][j-k]);
 
-For example, dp[1][2][7], we need to enumerate the second bit from 0 to 4, which are the quinaries 07, 16, 25, 34, 43. We know that 07, 16, 25 are invalid and their dp[1][1][i] = 0 will ignore them. 
+For example, dp[1][2][7], we need to enumerate the second bit from 0 to 4, which
+are the quinaries 07, 16, 25, 34, 43. We know that 07, 16, 25 are invalid and
+their dp[1][1][i] = 0 will ignore them.
 
 Now the iteration for the rest of the entries:
 
 	for each l in [2, 4] and i in [1, 13] and j in [0, 7]:
 	dp[l][i][j] = dp[l-1][i][j] + dp[1][i][j-l]
 
-For example dp[4][4][5], which is equivalent to the number of valid quinaries in the range [0000, 4000) with k=5. It can be splitted into [0000, 3000) with k=5, and [3000, 4000). The former one is dp[3][4][5], the latter one is equivalent to [000, 1000) with k=k-3, which is dp[1][4][2].
+For example dp[4][4][5], which is equivalent to the number of valid quinaries in
+the range [0000, 4000) with k=5. It can be splitted into [0000, 3000) with k=5,
+and [3000, 4000). The former one is dp[3][4][5], the latter one is equivalent to
+[000, 1000) with k=k-3, which is dp[1][4][2].
 
 Finally we can compute the hash of the quinary base on the dp arrays. An example
 C code is shown below.
@@ -55,8 +87,7 @@ int hash_quinary(unsigned char q[], int len, int k)
 	int sum = 0;
 	int i;
 
-	for (i=0; i<len; i++)
-	{
+	for (i=0; i<len; i++) {
 		sum += dp[q[i]][len-i-1][k];
 
 		k -= q[i];

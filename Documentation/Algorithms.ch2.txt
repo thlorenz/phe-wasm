@@ -45,7 +45,7 @@ be part of the best 5-card hand.
 
 We can of course use the HashNBinaryKSum function and three hash table (k can be
 5, 6 and 7) to evaluate the flush binary. However, considering the number
-$2^{13}$ = 8192 is not very large, we can directly look up a table of size 8192,
+2^13 = 8192 is not very large, we can directly look up a table of size 8192,
 that saves us a loop of 13 cycles to compute the perfect hash.
 
 If the hand contains no more than 7 cards, we can now immediately return the
