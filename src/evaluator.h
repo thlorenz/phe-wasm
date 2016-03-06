@@ -25,6 +25,10 @@
  * nine = 7, ten = 8, jack = 9, queen = 10, king = 11, ace = 12.
  *
  * 13 * 4 gives all 52 ids.
+ *
+ * WARNING: The code doesn't provide any sanity checks. Wrap it in your own
+ * function if you need. Otherwise make sure the inputs are within the range 
+ * [0, 51].
  */
 int evaluate_7cards(int a, int b, int c, int d, int e, int f, int g);
 int evaluate_5cards(int a, int b, int c, int d, int e);
