@@ -1,4 +1,4 @@
-Chapter 3: Hash for a restricted quinary
+Chapter 3: Hash For a Restricted Quinary
 
 Recall that for a hand that suits no longer matters, we can represent a 7-card hand with a 13-bit quinary (base 5) number. Again, there is a restriction of such a quinary, which is the sum of all bits is equal to 7.
 

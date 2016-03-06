@@ -1,4 +1,4 @@
-Chapter 2: Two branches
+Chapter 2: Split Into Two Branches
 
 What makes a poker evaluator complicated, is the Flush category (including the
 Straight Flush). If we don't care about the Flush, we can ignore the suits, and
