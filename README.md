@@ -5,6 +5,8 @@ programming.
 
 PH stands for Poker Hand, as well as Perfect Hashing.
 
+Copyright 2016 Henry Lee (lee0906@hotmail.com)
+
 ---------
 Intro
 ---------
