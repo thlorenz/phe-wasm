@@ -86,10 +86,11 @@ In summary, although it's an algorithm that uses very few CPU cycles, the true
 performance is bounded by the time access to the memory, which doesn't make it
 faster than the algorithm we used in chapter 2 to chapter 3.
 
-The source code of this algorithm is put under the branch `fast`, and can be
-found in a compressed gz file. The reason I compressed them is the original
-source code exceeds the limitation of the github file size limits. It also takes
-quite an effort to compile the source code. I failed the compilation in many
-linux evironments. It only worked when compiling under my Macbook Air, with the
-optimization flags disabled when compiling the larges file. Anyway, good luck
-with the compiling and have fun when playing it around.
+The source code of this algorithm is put under the branch `fast`, and the code
+can be found under a directory `fastevaluator`, where one of the file is
+compressed in a gz file. The reason I compressed it is the original file exceeds
+the largest github file size limits. It also takes quite an effort to compile
+the source code. I failed the compilation in many linux evironments. It only
+worked when compiling under my Macbook Air, with the optimization flags disabled
+when compiling the larges file. Anyway, good luck with the compiling and have
+fun when playing it around.
