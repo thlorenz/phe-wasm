@@ -1,23 +1,32 @@
 # PHEvaluator
 
+PH stands for Poker Hand, as well as Perfect Hashing.
+
 A poker hand evaluation algorithm with perfect hash functions and dynamic
 programming.
-
-PH stands for Poker Hand, as well as Perfect Hashing.
 
 Copyright 2016 Henry Lee (lee0906@hotmail.com)
 
 ---------
-Intro
+Overview
 ---------
-The source code provides a 5-card hand evaluator and a 7-card hand evaluator.
+It's a brand new algorithm, mainly designed to avoid traversing all 21
+combinations when evaluating a 7-card poker hand.
 
-They uses a similar evaluation system to the Cactus Kev's Poker Hand Evaluator
-(http://suffe.cool/poker/evaluator.html), but with a different algorithm, which
-gives a better performance in terms of time. The improvement is especially
-significant when running the 7-card evaluation.
+The implementation supports both 5-card and 7-card evaluating, where the 7-card
+version beats every other implementation I can find on the Internet.
 
-Documentation contains the description of the algorithms used in the evaluators.
+The source code provides a 5-card hand evaluator and a 7-card hand evaluator in
+a considerably small memory. The branch `fast` contains another implementation
+(with a slightly different algorithm) which uses a nearly 300Mb memory when
+evaluating a 7-card hand, but the amount of CPU cycles is very small.
+
+Their return value is identical to the Cactus Kev's Poker Hand Evaluator
+(http://suffe.cool/poker/evaluator.html). However, one can modify the hash table
+to support any kinds of evaluation system he likes.
+
+`Documentation` contains the description of the algorithms used in the
+evaluators.
 
 ---------
 Compile and test
