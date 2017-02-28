@@ -42,9 +42,9 @@ the result of the 5 subproblems with range of exactly a power of 5.
 We can use dynamic programming to solve all these subproblems, and store the
 result in an array. Let's use a 3-d array dp[l][n][k] of size 4*14*8, where n is
 the number of bits, k is the remaining number of k, and l is the most
-significant bit of the number next to the range. For example, the result of
-[0000, 1000) is stored in dp[1][4][k], and the result of [000, 200) is stored in
-dp[2][3][k].
+significant bit of the number that follows the current range. For example, the
+result of [0000, 1000) is stored in dp[1][4][k], and the result of [000, 200) is
+stored in dp[2][3][k].
 
 The base cases for the array dp:
 
@@ -63,7 +63,7 @@ k=0, the only one instance is 000.
 Now we can iterate all dp[1][i][j]:
 
 	for each i in [2, 13] and j in [2, 7]:
-	dp[1][i][j] = SUM{k in [0, 4]}(dp[0][i-1][j-k]);
+	dp[1][i][j] = \sum_{k in [0, 4]}dp[0][i-1][j-k];
 
 For example, dp[1][2][7], we need to enumerate the second bit from 0 to 4, which
 are the quinaries 07, 16, 25, 34, 43. We know that 07, 16, 25 are invalid and
