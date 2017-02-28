@@ -31,5 +31,6 @@
  * [0, 51].
  */
 int evaluate_7cards(int a, int b, int c, int d, int e, int f, int g);
+int evaluate_6cards(int a, int b, int c, int d, int e, int f);
 int evaluate_5cards(int a, int b, int c, int d, int e);
 
