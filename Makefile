@@ -8,10 +8,10 @@ five: test/five.o src/libeval5.a
 seven: test/seven.o src/libeval7.a
 	${CC} ${CFLAGS} $^ -o $@
 
-src/libeval5.a: src/evaluator5.o src/hash.o src/hashtable.o src/hashtable5.o src/hashtable7.o src/dptables.o
+src/libeval5.a: src/evaluator5.o src/hash.o src/hashtable.o src/hashtable5.o src/dptables.o
 	ar rcs $@ $^
 
-src/libeval7.a: src/evaluator7.o src/hash.o src/hashtable.o src/hashtable7.o src/hashtable7.o src/dptables.o
+src/libeval7.a: src/evaluator7.o src/hash.o src/hashtable.o src/hashtable7.o src/dptables.o
 	ar rcs $@ $^
 
 %.o: %.c
