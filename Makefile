@@ -1,4 +1,5 @@
 CC=gcc
+INCLUDE=./include
 
 all: five seven
 
@@ -21,7 +22,7 @@ src/libeval7.a: src/evaluator7.o src/hash.o src/hashtable.o src/hashtable7.o src
 	ar rcs $@ $^
 
 %.o: %.c
-	${CC} -c ${CFLAGS} $< -o $@
+	${CC} -c ${CFLAGS} -I${INCLUDE} $< -o $@
 
 clean:
 	rm -f src/*.o test/*.o *.o src/*.a five seven
