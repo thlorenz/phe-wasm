@@ -55,8 +55,8 @@ int main(void)
 	// Evaluating the hand of player 2
 	y = evaluate_7cards(a, b, c, d, e, h, i);
 
-	printf("The rank of the hand in player 1: %d\n", x); // expected 292
-	printf("The rank of the hand in player 2: %d\n", y); // expected 236
+	printf("The rank of the hand in player 1 is %d\n", x); // expected 292
+	printf("The rank of the hand in player 2 is %d\n", y); // expected 236
 
 	// Since the return value of the hand in player 2 is less than player 1,
 	// it's considered to be a higher rank and stronger hand.
