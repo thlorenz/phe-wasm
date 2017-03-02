@@ -28,13 +28,16 @@ to support any kinds of evaluation system he likes.
 `Documentation` contains the description of the algorithms used in the
 evaluators.
 
+The `examples` directory has some examples that demonstrates how to use the
+interface.
+
 ---------
 Compile and test
 ---------
-Simply run `make` can compile the source files and test program.
+Simply run `make` can compile the libraries and test program.
 
-If you like to add more flags in gcc, you may export the flags to the variable
-CFLAGS. One example is `export CLFAGS="-Ofast"`.
+If you'd like to add more flags in gcc, you may export the flags to the
+environment variable `CFLAGS`. One example is `export CLFAGS="-Ofast"`.
 
 After the compilation, it generates two programs `five` and `seven`. These test
 programs are cloned from Cactus Kev's evaulator, which loops over all possible
@@ -43,6 +46,9 @@ tell if the algorithms are correct or not.
 
 If you want to test the time used for evaluating all hands, run `time ./five` or
 `time ./seven`.
+
+As for the programs in `examples`, simply `cd examples` and running `make` will
+compile all these programs.
 
 ---------
 Interfaces
