@@ -10,20 +10,17 @@ Copyright 2016 Henry Lee (lee0906@hotmail.com)
 ---------
 Overview
 ---------
-It's a brand new algorithm, mainly designed to avoid traversing all 21
-combinations when evaluating a 7-card poker hand.
+It's a brand new algorithm, which avoids traversing all 7 choose 5 combinations
+when evaluating a 7-card poker hand, but uses a perfect hash function instead.
 
-The implementation supports both 5-card and 7-card evaluating, where the 7-card
-version beats every other implementation I can find on the Internet.
-
-The source code provides a 5-card hand evaluator and a 7-card hand evaluator in
-a considerably small memory. The branch `fast` contains another implementation
-(with a slightly different algorithm) which uses a nearly 300Mb memory when
-evaluating a 7-card hand, but the amount of CPU cycles is very small.
+The implementation supports both 5-card and 7-card evaluation, where the 7-card
+version beats many other algorithms in the execution time, and it's also using
+a considerably small memory (~100kb for the 7-card evaluation).
 
 Their return value is identical to the Cactus Kev's Poker Hand Evaluator
-(http://suffe.cool/poker/evaluator.html). However, one can modify the hash table
-to support any kinds of evaluation system he likes.
+(http://suffe.cool/poker/evaluator.html), where basically a stronger hand has a
+lower return value. However, one can modify the hash table to support any kind
+of evaluation system he likes.
 
 `Documentation` contains the description of the algorithms used in the
 evaluators.
@@ -36,7 +33,7 @@ Compile and test
 ---------
 Simply run `make` can compile the libraries and test program.
 
-If you'd like to add more flags in gcc, you may export the flags to the
+If you'd like to add some more flags in gcc, you may export the flags to the
 environment variable `CFLAGS`. One example is `export CLFAGS="-Ofast"`.
 
 After the compilation, it generates two programs `five` and `seven`. These test
@@ -53,13 +50,11 @@ compile all these programs.
 ---------
 Interfaces
 ---------
-If you want to port the code to your own project, you need to copy all the files
-under the `src` directory. The file `evaluator.h` contains the interfaces you
-need to call.
+The file `include/evaluator.h` contains the interfaces you need to call.
 
-The inputs are card ids ranged from 0 - 51. The card id modulo 4 gives the suit.
+The inputs are card ids ranged [0, 51]. The card id modulo 4 gives the suit.
 It doesn't really matter how you assign the four numbers to the 4 suits, as
-long as they use a distinct number. The card id divided by 4 gives the rank,
+long as they use distinct numbers. The card id divided by 4 gives the rank,
 where ace has the highest value 12 and deuce has the lowest value 0.
 
 The return value is identical to the Cactus Kev's evaluator. The strongest hands
