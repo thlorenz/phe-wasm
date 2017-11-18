@@ -14,7 +14,6 @@
  *  limitations under the License.
  */
 
-#include <stdio.h>
 #include "tables.h"
 
 int hash_quinary(unsigned char q[], int len, int k)

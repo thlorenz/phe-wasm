@@ -14,7 +14,6 @@
  *  limitations under the License.
  */
 
-#include <stdio.h>
 #include "hash.h"
 #include "tables.h"
 
