@@ -1,0 +1,36 @@
+{
+  "name": "phe-wasm",
+  "version": "0.0.0",
+  "description": "PokerHand evaluator compiled to wasm via emscripten.",
+  "main": "phe-wasm.js",
+  "scripts": {
+    "test": "tape wasm/test/*.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/thlorenz/phe-wasm.old.git"
+  },
+  "homepage": "https://github.com/thlorenz/phe-wasm.old",
+  "dependencies": {},
+  "devDependencies": {
+    "tape": "~4.6.3",
+    "wasm2js": "~0.1.1"
+  },
+  "keywords": [
+    "wasm",
+    "poker",
+    "evaluator"
+  ],
+  "author": {
+    "name": "Thorsten Lorenz",
+    "email": "thlorenz@gmx.de",
+    "url": "http://thlorenz.com"
+  },
+  "license": {
+    "type": "MIT",
+    "url": "https://github.com/thlorenz/phe-wasm.old/blob/master/LICENSE"
+  },
+  "engine": {
+    "node": ">=8"
+  }
+}

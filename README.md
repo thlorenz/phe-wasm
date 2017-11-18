@@ -1,4 +1,21 @@
-# PHEvaluator
+# PHEvaluator including WASM
+
+Added WASM version and JS API to use it. At this point (using Node.js v8) the JavaScript
+implementation itself ([phe](https://github.com/thlorenz/phe)) is only 5% slower than the 
+C implementation.
+
+Using wasm (this implementation) drops this difference to about 2-3%. So we get a small
+advantage over JS, but in most cases not enough to justify loading the 232K wasm module.
+
+However if you want to use it here are the 3 functions exposed by the API:
+
+- evaluator5: evaluates 5 cards 
+- evaluator6: evaluates 6 cards 
+- evaluator7: evaluates 7 cards 
+
+More info see [these tests](https://github.com/thlorenz/phe-wasm/tree/master/wasm/test).
+
+* * *
 
 PH stands for Poker Hand, as well as Perfect Hashing.
 
